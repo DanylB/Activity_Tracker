@@ -40,7 +40,5 @@ class GetDataFromGoogleFit {
     } else {
       dev.log(response.statusCode.toString());
     }
-
-    dev.log('kllkjlkjlkjlkjlkj');
   }
 }

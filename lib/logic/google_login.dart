@@ -34,7 +34,8 @@ class GoogleLogin {
       /// Firebase do login
       await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
-      reLogin();
+      // reLogin();
+      print('______________');
     }
 
     /// Save Access Token in Local Storage
@@ -45,7 +46,7 @@ class GoogleLogin {
 
   /// Do Silent ReLogin for get update tokens
   Future reLogin() async {
-    var googleUser = await googleSignIn.signInSilently(reAuthenticate: false);
+    var googleUser = await googleSignIn.signInSilently(reAuthenticate: true);
     if (googleUser == null) return;
     _user = googleUser;
 
