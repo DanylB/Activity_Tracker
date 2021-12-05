@@ -13,7 +13,7 @@ class _FitRestApiTestState extends State<FitRestApiTest> {
   @override
   Widget build(BuildContext context) {
     final googleLogin = GoogleLogin();
-    final getDataFromGoogleFit = GetDataFromGoogleFit();
+    // final getDataFromGoogleFit = GetDataFromGoogleFit();
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -21,7 +21,7 @@ class _FitRestApiTestState extends State<FitRestApiTest> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(minimumSize: const Size(300, 200)),
             onPressed: () {
-              getDataFromGoogleFit.printData();
+              // getDataFromGoogleFit.printData();
             },
             child: const Text("HTTP GET"),
           ),
