@@ -10,6 +10,18 @@ class FitRestApiTest extends StatefulWidget {
 }
 
 class _FitRestApiTestState extends State<FitRestApiTest> {
+  final getDataFromGoogleFit = GetDataFromGoogleFit();
+
+  void displayData() async {
+    var a = await getDataFromGoogleFit.printData();
+
+    setState(() {
+      btnText = 'Display Data = ${a.toString()}';
+    });
+  }
+
+  var btnText = 'Display Data';
+
   @override
   Widget build(BuildContext context) {
     final googleLogin = GoogleLogin();
@@ -32,6 +44,15 @@ class _FitRestApiTestState extends State<FitRestApiTest> {
               googleLogin.reLogin();
             },
             child: const Text("ReLogin"),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                primary: Colors.pink[900], minimumSize: const Size(300, 200)),
+            onPressed: () {
+              // googleLogin.reLogin();
+              displayData();
+            },
+            child: Text(btnText),
           ),
           const SizedBox(height: 100),
           ElevatedButton(

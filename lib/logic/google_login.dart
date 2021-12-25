@@ -35,7 +35,7 @@ class GoogleLogin {
       await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       // reLogin();
-      print('______________');
+      // print('______________');
     }
 
     /// Save Access Token in Local Storage

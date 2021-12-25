@@ -26,17 +26,38 @@ class GetDataFromGoogleFit {
               }
             ],
             "bucketByTime": {"durationMillis": 86400000},
-            "startTimeMillis": 1637442000000,
-            "endTimeMillis": 1637505295000
+            "startTimeMillis": 1640358966000,
+            "endTimeMillis": 1640456166000
           },
         ));
-    // var response2 = await http.get(Uri.parse(
-    //     "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=$_accessToken"));
 
     if (response.statusCode == 200) {
       dev.log(response.body);
     } else {
       dev.log(response.statusCode.toString());
     }
+
+    var steps = GoogleFitData.fromJson(jsonDecode(response.body));
+
+    return steps;
+  }
+}
+
+class GoogleFitData {
+  int stepCountFromFit;
+
+  GoogleFitData(
+    this.stepCountFromFit,
+  );
+
+  factory GoogleFitData.fromJson(dynamic json) {
+    return GoogleFitData(
+      json['bucket'][0]['dataset'][0]['point'][0]['value'][0]['intVal'] as int,
+    );
+  }
+
+  @override
+  String toString() {
+    return ' $stepCountFromFit ';
   }
 }
