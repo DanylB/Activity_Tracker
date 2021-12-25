@@ -37,14 +37,14 @@ class _FitRestApiTestState extends State<FitRestApiTest> {
             },
             child: const Text("HTTP GET"),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.purple, minimumSize: const Size(300, 200)),
-            onPressed: () {
-              googleLogin.reLogin();
-            },
-            child: const Text("ReLogin"),
-          ),
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //       primary: Colors.purple, minimumSize: const Size(300, 200)),
+          //   onPressed: () {
+          //     googleLogin.reLogin();
+          //   },
+          //   child: const Text("ReLogin"),
+          // ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 primary: Colors.pink[900], minimumSize: const Size(300, 200)),

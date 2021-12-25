@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as dev;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'deserialization_data_from_google_fit.dart';
 
 class GetDataFromGoogleFit {
   Future printData() async {
@@ -9,6 +11,17 @@ class GetDataFromGoogleFit {
     var localStorage = await SharedPreferences.getInstance();
     var _accessToken = localStorage.getString('accessToken');
     localStorage.remove('acessToken');
+
+    /// Get Time from today:00:00 to now
+    var year = int.parse(DateTime.now().toString().substring(0, 4));
+    var mounth = int.parse(DateTime.now().toString().substring(5, 7));
+    var day = int.parse(DateTime.now().toString().substring(8, 10));
+    var nowTime = DateTime.now().millisecondsSinceEpoch;
+    int yesterday = DateTime(year, mounth, day, 00, 00).millisecondsSinceEpoch;
+
+    var noZone = DateTime.fromMillisecondsSinceEpoch(yesterday);
+
+    print(noZone);
 
     var response = await http.post(
         Uri.parse(
@@ -26,8 +39,8 @@ class GetDataFromGoogleFit {
               }
             ],
             "bucketByTime": {"durationMillis": 86400000},
-            "startTimeMillis": 1640358966000,
-            "endTimeMillis": 1640456166000
+            "startTimeMillis": yesterday,
+            "endTimeMillis": nowTime,
           },
         ));
 
@@ -40,24 +53,5 @@ class GetDataFromGoogleFit {
     var steps = GoogleFitData.fromJson(jsonDecode(response.body));
 
     return steps;
-  }
-}
-
-class GoogleFitData {
-  int stepCountFromFit;
-
-  GoogleFitData(
-    this.stepCountFromFit,
-  );
-
-  factory GoogleFitData.fromJson(dynamic json) {
-    return GoogleFitData(
-      json['bucket'][0]['dataset'][0]['point'][0]['value'][0]['intVal'] as int,
-    );
-  }
-
-  @override
-  String toString() {
-    return ' $stepCountFromFit ';
   }
 }
