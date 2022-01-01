@@ -35,7 +35,6 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   http: ^0.13.4
-  extension_google_sign_in_as_googleapis_auth: ^2.0.4
 
   #local storage
   shared_preferences: ^2.0.9
@@ -49,11 +48,15 @@ dev_dependencies:
   google_sign_in: ^5.2.1
   googleapis_auth: ^1.2.0
 
+  extension_google_sign_in_as_googleapis_auth: ^2.0.4
+
   # Google APIs (for Google Fit)
   googleapis: ^7.0.0
 
   # Google Icon
   font_awesome_flutter: ^9.2.0
+  # Google Fonts
+  google_fonts: ^2.1.1
 
   # State Management
   # provider: ^6.0.1

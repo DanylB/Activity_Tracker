@@ -11,9 +11,6 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final googleLogin = GoogleLogin();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Activity Tracker'),
-      ),
       body: StreamBuilder(
           stream: FirebaseAuth.instance.idTokenChanges(),
           builder: (context, snapshot) {
@@ -22,7 +19,8 @@ class LoginPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasData) {
-              return const FitRestApiTest();
+              // return const FitRestApiTest();
+              return const HomePage();
             } else if (snapshot.hasError) {
               return const Center(
                 child: Text('ERROR'),
