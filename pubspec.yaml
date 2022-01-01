@@ -44,7 +44,7 @@ dev_dependencies:
     sdk: flutter
 
   # Google Sign In
-  firebase_auth: ^1.1.4
+  firebase_auth: ^3.3.4
   google_sign_in: ^5.2.1
   googleapis_auth: ^1.2.0
 

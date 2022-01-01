@@ -13,6 +13,7 @@ class LoginPage extends StatelessWidget {
     final googleLogin = GoogleSignInProvider();
     return Scaffold(
       body: StreamBuilder(
+          // stream: FirebaseAuth.instance.idTokenChanges(),
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

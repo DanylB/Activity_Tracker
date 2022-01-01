@@ -106,6 +106,7 @@ class StepCounter extends StatefulWidget {
 
 class _StepCounterState extends State<StepCounter> {
   final getDataFromGoogleFit = GetDataFromGoogleFit();
+
   List<Widget> list = [Text('${DateTime.now()}')];
 
   var step = '';

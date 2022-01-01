@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:googleapis/fitness/v1.dart';
+// import 'package:googleapis/fitness/v1.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer' as dev;
@@ -36,7 +36,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       pref.setString('accessToken', accessToken.toString());
       dev.log('googleLogin = ' + pref.getString('accessToken').toString());
     } catch (e) {
-      reLogin();
+      // reLogin();
       dev.log(e.toString());
     }
 
