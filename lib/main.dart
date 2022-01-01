@@ -1,6 +1,7 @@
+import 'package:activity_tracker/logic/google_login.dart';
 import 'package:flutter/material.dart';
 import 'package:activity_tracker/screens/export.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 // import 'provider/google_sign_in.dart';
 import 'package:flutter/services.dart';
 
@@ -24,16 +25,19 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent, // Status Bar bg Color
       systemNavigationBarColor: Colors.white, // Bottom Nav Bar bg Color
     ));
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.light),
-      initialRoute: '/',
-      routes: {
-        '/login_page': (context) => const LoginPage(),
-        '/home_page': (context) => const HomePage(),
-      },
-      home: const LoginPage(),
-      // home: const HomePage(),
+    return ChangeNotifierProvider(
+      create: (context) => GoogleSignInProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(brightness: Brightness.light),
+        initialRoute: '/',
+        routes: {
+          '/login_page': (context) => const LoginPage(),
+          '/home_page': (context) => const HomePage(),
+        },
+        home: const LoginPage(),
+        // home: const HomePage(),
+      ),
     );
   }
 }

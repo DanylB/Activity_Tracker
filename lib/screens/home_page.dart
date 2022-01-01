@@ -4,6 +4,7 @@ import 'package:activity_tracker/logic/google_login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:activity_tracker/logic/get_data_from_google_fit.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -105,6 +106,7 @@ class StepCounter extends StatefulWidget {
 
 class _StepCounterState extends State<StepCounter> {
   final getDataFromGoogleFit = GetDataFromGoogleFit();
+  List<Widget> list = [Text('${DateTime.now()}')];
 
   var step = '';
   var errors = '';
@@ -112,9 +114,10 @@ class _StepCounterState extends State<StepCounter> {
   String start = '';
   var startTime;
   var endTime;
+
   void displayData() async {
     var a = await getDataFromGoogleFit.printData();
-
+    list.add(Text('${DateTime.now()}'));
 //
     if (start == '') {
       start = a.toString();
@@ -128,6 +131,9 @@ class _StepCounterState extends State<StepCounter> {
 //
     try {
       setState(() {
+        if (a.toString() == null) {
+          step = 0.toString();
+        }
         step = a.toString();
       });
     } catch (e) {
@@ -156,7 +162,8 @@ class _StepCounterState extends State<StepCounter> {
 
   @override
   Widget build(BuildContext context) {
-    final googleLogin = GoogleLogin();
+    final googleLogin = GoogleSignInProvider();
+    final googlePrintData = GetDataFromGoogleFit();
 
     return Column(children: [
       Container(
@@ -169,6 +176,7 @@ class _StepCounterState extends State<StepCounter> {
       ElevatedButton(
         onPressed: () {
           timerFunc();
+          // googlePrintData.printData();
         },
         child: const Text('Refresh (every 10s)'),
       ),
@@ -182,8 +190,27 @@ class _StepCounterState extends State<StepCounter> {
       Text('End = $endTime'),
       Text(errors),
       ElevatedButton(
-        onPressed: () => googleLogin.logout(),
+        onPressed: () {
+          // googleLogin.logout();
+          final provider =
+              Provider.of<GoogleSignInProvider>(context, listen: false);
+          provider.logout();
+        },
         child: Text('Log Out'),
+      ),
+      ElevatedButton(
+        onPressed: () {
+          final provider =
+              Provider.of<GoogleSignInProvider>(context, listen: false);
+          provider.reLogin();
+        },
+        child: Text('Refresh Token'),
+      ),
+      Divider(),
+      SingleChildScrollView(
+        child: Column(
+          children: [...list],
+        ),
       ),
     ]);
   }

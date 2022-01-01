@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'export.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final googleLogin = GoogleLogin();
+    final googleLogin = GoogleSignInProvider();
     return Scaffold(
       body: StreamBuilder(
-          stream: FirebaseAuth.instance.idTokenChanges(),
+          stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -32,7 +33,10 @@ class LoginPage extends StatelessWidget {
                   minimumSize: const Size(200, 50),
                 ),
                 onPressed: () {
-                  googleLogin.googleLogin();
+                  // googleLogin.googleLogin();
+                  final provider =
+                      Provider.of<GoogleSignInProvider>(context, listen: false);
+                  provider.googleLogin();
                 },
                 label: const Text('Sign Up with Google'),
                 icon: const FaIcon(FontAwesomeIcons.google),

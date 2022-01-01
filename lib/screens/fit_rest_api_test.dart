@@ -24,7 +24,7 @@ class _FitRestApiTestState extends State<FitRestApiTest> {
 
   @override
   Widget build(BuildContext context) {
-    final googleLogin = GoogleLogin();
+    final googleLogin = GoogleSignInProvider();
     final getDataFromGoogleFit = GetDataFromGoogleFit();
     return Center(
       child: Column(
@@ -59,7 +59,7 @@ class _FitRestApiTestState extends State<FitRestApiTest> {
             style: ElevatedButton.styleFrom(
                 primary: Colors.redAccent, minimumSize: const Size(100, 50)),
             onPressed: () {
-              googleLogin.logout();
+              // googleLogin.logout();
               // Navigator.pushNamed(context, '/login_page');
             },
             child: const Text("Log Out"),

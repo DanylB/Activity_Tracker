@@ -1,67 +1,75 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:googleapis/fitness/v1.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer' as dev;
 
-class GoogleLogin {
-  //* Initialization GoogleSignIn with the scopes
+class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn(
     scopes: <String>[
-      FitnessApi.fitnessActivityReadScope,
+      'https://www.googleapis.com/auth/fitness.activity.read',
     ],
   );
 
-  //* Class that holds the basic account information of the signed in Google user
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
 
-  /// Google LogIn with Firebase
   Future googleLogin() async {
-    final googleUser = await googleSignIn.signIn();
-
-    if (googleUser == null) return;
-    _user = googleUser;
-
-    final googleAuth = await googleUser.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    //* For Refresh Token, credential
     try {
-      /// Firebase do login
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) return;
+      _user = googleUser;
+
+      final googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
       await FirebaseAuth.instance.signInWithCredential(credential);
+
+      /// Save Access Token in Local Storage
+      final accessToken = googleAuth.accessToken;
+      var pref = await SharedPreferences.getInstance();
+      pref.setString('accessToken', accessToken.toString());
+      dev.log('googleLogin = ' + pref.getString('accessToken').toString());
     } catch (e) {
-      // reLogin();
-      // print('______________');
+      reLogin();
+      dev.log(e.toString());
     }
 
-    /// Save Access Token in Local Storage
-    final accessToken = googleAuth.accessToken;
-    var pref = await SharedPreferences.getInstance();
-    pref.setString('accessToken', accessToken.toString());
+    notifyListeners();
   }
 
   /// Do Silent ReLogin for get update tokens
   Future reLogin() async {
-    var googleUser = await googleSignIn.signInSilently(reAuthenticate: true);
-    if (googleUser == null) return;
-    _user = googleUser;
+    try {
+      var googleUser = await googleSignIn.signInSilently(reAuthenticate: true);
 
-    final googleAuth = await googleUser.authentication;
+      if (googleUser == null) return;
+      _user = googleUser;
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      final googleAuth = await googleUser.authentication;
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
-    return;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      /// Save Access Token in Local Storage
+      final accessToken = googleAuth.accessToken;
+      var pref = await SharedPreferences.getInstance();
+      pref.setString('accessToken', accessToken.toString());
+      dev.log('reLogin = ' + pref.getString('accessToken').toString());
+    } catch (e) {
+      dev.log(e.toString());
+    }
   }
 
-  /// Sign Out
   Future logout() async {
     await googleSignIn.disconnect();
     FirebaseAuth.instance.signOut();

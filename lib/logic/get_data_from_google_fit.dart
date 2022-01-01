@@ -10,6 +10,8 @@ class GetDataFromGoogleFit {
     /// Get Access Token from Local Storage
     var localStorage = await SharedPreferences.getInstance();
     var _accessToken = localStorage.getString('accessToken');
+    dev.log('reLogin = ' + localStorage.getString('accessToken').toString());
+
     localStorage.remove('acessToken');
 
     /// Get Time from today:00:00 to now
