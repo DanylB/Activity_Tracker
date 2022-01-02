@@ -54,6 +54,6 @@ class GetDataFromGoogleFit {
 
     var steps = GoogleFitData.fromJson(jsonDecode(response.body));
 
-    return steps;
+    return steps.toString();
   }
 }

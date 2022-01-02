@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
+import 'model/MyModelStepData.dart';
+
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +27,11 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent, // Status Bar bg Color
       systemNavigationBarColor: Colors.white, // Bottom Nav Bar bg Color
     ));
-    return ChangeNotifierProvider(
-      create: (context) => GoogleSignInProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => GoogleSignInProvider()),
+        ChangeNotifierProvider(create: (context) => MyModelStepData())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(brightness: Brightness.light),

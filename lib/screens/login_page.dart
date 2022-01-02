@@ -10,7 +10,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final googleLogin = GoogleSignInProvider();
     return Scaffold(
       body: StreamBuilder(
           // stream: FirebaseAuth.instance.idTokenChanges(),
