@@ -10,7 +10,7 @@ class GetDataFromGoogleFit {
     /// Get Access Token from Local Storage
     var localStorage = await SharedPreferences.getInstance();
     var _accessToken = localStorage.getString('accessToken');
-    dev.log('reLogin = ' + localStorage.getString('accessToken').toString());
+    dev.log('printData = ' + localStorage.getString('accessToken').toString());
 
     localStorage.remove('acessToken');
 
@@ -20,10 +20,6 @@ class GetDataFromGoogleFit {
     var day = int.parse(DateTime.now().toString().substring(8, 10));
     var nowTime = DateTime.now().millisecondsSinceEpoch;
     int yesterday = DateTime(year, mounth, day, 00, 00).millisecondsSinceEpoch;
-
-    var noZone = DateTime.fromMillisecondsSinceEpoch(yesterday);
-
-    print(noZone);
 
     var response = await http.post(
         Uri.parse(

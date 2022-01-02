@@ -35,10 +35,7 @@ class HomePage extends StatelessWidget {
                 slivers: [
                   SliverList(
                     delegate: SliverChildListDelegate([
-                      BuildDashboardCard(
-                        stepCount: provider.stepCount,
-                        stepProgres: provider.stepProgres,
-                      ),
+                      _buildStepCard(provider),
                       const SizedBox(height: 22),
                       _buildGetStepDataButton(context),
                     ]),
@@ -49,6 +46,19 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  BuildDashboardCard _buildStepCard(MyModelStepData provider) {
+    return BuildDashboardCard(
+      title: 'Пройдено шагов',
+      counterValue: '${provider.stepCount} / 10 000',
+      progressPercent: provider.stepProgres,
+      cardBackground: const Color(0xFFC0CAFF).withOpacity(.1),
+      progressBackgroundColor: const Color(0xFF1E42FF).withOpacity(.2),
+      progressValueColor: const Color(0xFF1E42FF),
+      iconBackgroundColor: const Color(0xFF1E42FF).withOpacity(.05),
+      icon: 'assets/step_icon.png',
     );
   }
 

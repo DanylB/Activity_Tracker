@@ -3,13 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BuildDashboardCard extends StatefulWidget {
-  final String stepCount;
-  final double stepProgres;
+  final String title;
+  final String counterValue;
+  final double progressPercent;
+  final Color cardBackground;
+  final Color iconBackgroundColor;
+  final Color progressBackgroundColor;
+  final Color progressValueColor;
+  final String icon;
 
   const BuildDashboardCard({
     Key? key,
-    required this.stepCount,
-    required this.stepProgres,
+    required this.title,
+    required this.counterValue,
+    required this.progressPercent,
+    required this.cardBackground,
+    required this.iconBackgroundColor,
+    required this.progressBackgroundColor,
+    required this.progressValueColor,
+    required this.icon,
   }) : super(key: key);
 
   @override
@@ -21,24 +33,24 @@ class BuildDashboardCardState extends State<BuildDashboardCard> {
   Widget build(BuildContext context) {
     return Responsive.isMobile(context)
         ? BuildMobileView(
-            title: 'Пройдено шагов',
-            counterValue: '${widget.stepCount} / 10 000',
-            progressPercent: widget.stepProgres,
-            cardBackground: const Color(0xFFC0CAFF).withOpacity(.1),
-            progressBackgroundColor: const Color(0xFF1E42FF).withOpacity(.2),
-            progressValueColor: const Color(0xFF1E42FF),
-            iconBackgroundColor: const Color(0xFF1E42FF).withOpacity(.05),
-            icon: Image.asset('assets/step_icon.png', scale: 4),
+            title: widget.title,
+            counterValue: widget.counterValue,
+            progressPercent: widget.progressPercent,
+            cardBackground: widget.cardBackground,
+            progressBackgroundColor: widget.progressBackgroundColor,
+            progressValueColor: widget.progressValueColor,
+            iconBackgroundColor: widget.iconBackgroundColor,
+            icon: Image.asset(widget.icon, scale: 4),
           )
         : BuildWatchView(
-            title: 'Пройдено шагов',
-            counterValue: '${widget.stepCount} / 10 000',
-            progressPercent: widget.stepProgres,
-            cardBackground: const Color(0xFFC0CAFF).withOpacity(.1),
-            progressBackgroundColor: const Color(0xFF1E42FF).withOpacity(.2),
-            progressValueColor: const Color(0xFF1E42FF),
-            iconBackgroundColor: const Color(0xFF1E42FF).withOpacity(.05),
-            icon: Image.asset('assets/step_icon.png', scale: 6),
+            title: widget.title,
+            counterValue: widget.counterValue,
+            progressPercent: widget.progressPercent,
+            cardBackground: widget.cardBackground,
+            progressBackgroundColor: widget.progressBackgroundColor,
+            progressValueColor: widget.progressValueColor,
+            iconBackgroundColor: widget.iconBackgroundColor,
+            icon: Image.asset(widget.icon, scale: 6),
           );
   }
 }
@@ -240,7 +252,7 @@ class BuildWatchView extends StatelessWidget {
           icon,
           const SizedBox(width: 5),
           Text(
-            'Пройдено шагов',
+            title,
             style: GoogleFonts.roboto(
               color: const Color(0xFF1E42FF),
               fontSize: 14,
