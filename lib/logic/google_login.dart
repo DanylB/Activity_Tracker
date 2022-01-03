@@ -72,7 +72,6 @@ class GoogleSignInProvider extends ChangeNotifier {
       /// Save Access Token in Local Storage
       final accessToken = googleAuth.accessToken;
       var pref = await SharedPreferences.getInstance();
-      pref.remove('acessToken');
       pref.setString('accessToken', accessToken.toString());
       dev.log('reLogin = ' + pref.getString('accessToken').toString());
     } catch (e) {
