@@ -1,3 +1,4 @@
+import 'package:activity_tracker/logic/google_login.dart';
 import 'package:activity_tracker/model/MyModelStepData.dart';
 import 'package:activity_tracker/widgets/export.dart';
 import 'package:flutter/material.dart';
@@ -38,14 +39,29 @@ class HomePage extends StatelessWidget {
                       _buildStepCard(provider),
                       const SizedBox(height: 22),
                       _buildGetStepDataButton(context),
+                      _buildLogoutButton(context),
                     ]),
                   ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
+    );
+  }
+
+  ElevatedButton _buildLogoutButton(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.red,
+      ),
+      onPressed: () {
+        final googleLogoutProvider =
+            Provider.of<GoogleSignInProvider>(context, listen: false);
+        googleLogoutProvider.logout();
+      },
+      child: const Text('Logout'),
     );
   }
 

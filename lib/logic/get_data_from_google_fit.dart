@@ -1,27 +1,15 @@
 import 'dart:convert';
 import 'dart:core';
+import 'package:activity_tracker/logic/google_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as dev;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'deserialization_data_from_google_fit.dart';
 
 class GetDataFromGoogleFit {
-  Future printData() async {
-    /// Get Access Token from Local Storage
-    var localStorage = await SharedPreferences.getInstance();
-    var _accessToken = localStorage.getString('accessToken');
-    dev.log('printData = ' + localStorage.getString('accessToken').toString());
-
-    localStorage.remove('acessToken');
-
-    /// Get Time from today:00:00 to now
-    var year = int.parse(DateTime.now().toString().substring(0, 4));
-    var mounth = int.parse(DateTime.now().toString().substring(5, 7));
-    var day = int.parse(DateTime.now().toString().substring(8, 10));
-    var nowTime = DateTime.now().millisecondsSinceEpoch;
-    int yesterday = DateTime(year, mounth, day, 00, 00).millisecondsSinceEpoch;
-
-    var response = await http.post(
+  /// Get Data about Steps for today from Google Fit
+  _sendRequest(_accessToken, yesterday, nowTime) async {
+    var response = http.post(
         Uri.parse(
             'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate'),
         headers: {
@@ -41,15 +29,79 @@ class GetDataFromGoogleFit {
             "endTimeMillis": nowTime,
           },
         ));
+    return response;
+  }
 
-    if (response.statusCode == 200) {
-      dev.log(response.body);
-    } else {
-      dev.log(response.statusCode.toString());
+  /// Get Access Token from Local Storage
+  _getAccessToken() async {
+    final localStorage = await SharedPreferences.getInstance();
+    final _accessToken = localStorage.getString('accessToken');
+    dev.log('_getAccessToken = ' +
+        localStorage.getString('accessToken').toString());
+
+    localStorage.remove('acessToken');
+    return _accessToken;
+  }
+
+  /// Get Time from today:00:00 to now
+  _getTodayDate() {
+    final year = int.parse(DateTime.now().toString().substring(0, 4));
+    final mounth = int.parse(DateTime.now().toString().substring(5, 7));
+    final day = int.parse(DateTime.now().toString().substring(8, 10));
+    final nowTime = DateTime.now().millisecondsSinceEpoch;
+    int yesterday = DateTime(year, mounth, day, 00, 00).millisecondsSinceEpoch;
+
+    return [yesterday, nowTime];
+  }
+
+  Future printData() async {
+    var _accessToken = await _getAccessToken();
+    var yesterdayDate = _getTodayDate()[0];
+    var nowTime = _getTodayDate()[1];
+
+    // var response2 = await http.post(
+    //     Uri.parse(
+    //         'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate'),
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //       'Authorization': 'Bearer $_accessToken',
+    //     },
+    //     body: jsonEncode(
+    //       {
+    //         "aggregateBy": [
+    //           // {
+    //           //   "dataSourceId":
+    //           //       "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+    //           // },
+    //           // {
+    //           //   "dataSourceId":
+    //           //       "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended"
+    //           // },
+    //           {"dataTypeName": "steps"},
+    //         ],
+    //         "bucketByTime": {"durationMillis": 86400000},
+    //         "startTimeMillis": yesterday,
+    //         "endTimeMillis": nowTime,
+    //       },
+    //     ));
+
+    var response = await _sendRequest(_accessToken, yesterdayDate, nowTime);
+
+    response.statusCode == 200
+        ? {dev.log(response.body)}
+        : {dev.log(response.statusCode.toString())};
+
+    var steps = '0';
+    try {
+      steps = GoogleFitData.fromJson(jsonDecode(response.body)).toString();
+    } catch (e) {
+      final providerReLogin = GoogleSignInProvider();
+      providerReLogin.reLogin();
+      await _sendRequest(_accessToken, yesterdayDate, nowTime);
+
+      dev.log('CATCH Resposne = $_accessToken');
     }
 
-    var steps = GoogleFitData.fromJson(jsonDecode(response.body));
-
-    return steps.toString();
+    return steps;
   }
 }

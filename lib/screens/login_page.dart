@@ -34,9 +34,9 @@ class LoginPage extends StatelessWidget {
                 ),
                 onPressed: () {
                   // googleLogin.googleLogin();
-                  final provider =
+                  final googleLoginProvider =
                       Provider.of<GoogleSignInProvider>(context, listen: false);
-                  provider.googleLogin();
+                  googleLoginProvider.googleLogin();
                 },
                 label: const Text('Sign Up with Google'),
                 icon: const FaIcon(FontAwesomeIcons.google),
