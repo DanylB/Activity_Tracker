@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
     final sizeW = MediaQuery.of(context).size.width;
     final sizeH = MediaQuery.of(context).size.height;
 
-    final provider = Provider.of<MyModelStepData>(context);
+    final provider = Provider.of<MyModelGoogleFitData>(context);
     return Scaffold(
       backgroundColor: Colors.green,
       body: Stack(
@@ -38,12 +38,22 @@ class HomePage extends StatelessWidget {
                     delegate: SliverChildListDelegate([
                       _buildStepCard(provider),
                       const SizedBox(height: 22),
+                      _buildDistanseCard(provider),
+                      const SizedBox(height: 22),
                       _buildGetStepDataButton(context),
                       _buildLogoutButton(context),
                     ]),
                   ),
                 ],
               ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Text(
+              'Build 0.5.200',
+              style: Theme.of(context).textTheme.headline4,
             ),
           ),
         ],
@@ -65,11 +75,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  BuildDashboardCard _buildStepCard(MyModelStepData provider) {
+  BuildDashboardCard _buildStepCard(MyModelGoogleFitData provider) {
     return BuildDashboardCard(
       title: 'Пройдено шагов',
       counterValue: '${provider.stepCount} / 10 000',
-      progressPercent: provider.stepProgres,
+      progressPercent: provider.stepProgress,
       cardBackground: const Color(0xFFC0CAFF).withOpacity(.1),
       progressBackgroundColor: const Color(0xFF1E42FF).withOpacity(.2),
       progressValueColor: const Color(0xFF1E42FF),
@@ -78,8 +88,21 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  BuildDashboardCard _buildDistanseCard(MyModelGoogleFitData provider) {
+    return BuildDashboardCard(
+      title: 'Пройдено расстояние',
+      counterValue: '${provider.distanceCount} км / 20 км',
+      progressPercent: provider.distanceProgress,
+      cardBackground: const Color(0xFFFFF2DF).withOpacity(.1),
+      progressBackgroundColor: const Color(0xFFFFAB2E).withOpacity(.2),
+      progressValueColor: const Color(0xFFFFAB2E),
+      iconBackgroundColor: const Color(0xFFFFAB2E).withOpacity(.05),
+      icon: 'assets/distanse_icon.png',
+    );
+  }
+
   _buildGetStepDataButton(BuildContext context) {
-    var provider = Provider.of<MyModelStepData>(context, listen: false);
+    var provider = Provider.of<MyModelGoogleFitData>(context, listen: false);
     return ElevatedButton(
       onPressed: () => provider.getData(),
       child: const Text('TAP ME !!!'),

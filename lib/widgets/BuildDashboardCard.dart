@@ -214,7 +214,7 @@ class BuildWatchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sizeW = MediaQuery.of(context).size.width;
+    // final sizeW = MediaQuery.of(context).size.width;
 
     return Column(
       children: [

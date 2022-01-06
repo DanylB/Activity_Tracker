@@ -6,6 +6,11 @@ import 'dart:developer' as dev;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'deserialization_data_from_google_fit.dart';
 
+enum ActivityTypes {
+  steps,
+  distance,
+}
+
 class GetDataFromGoogleFit {
   /// Get Data about Steps for today from Google Fit
   _sendRequest(_accessToken, yesterday, nowTime) async {
@@ -19,10 +24,17 @@ class GetDataFromGoogleFit {
         body: jsonEncode(
           {
             "aggregateBy": [
+              //steps
               {
                 "dataSourceId":
                     "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
-              }
+              },
+              //distance (meters)
+              {
+                "dataTypeName": "com.google.distance.delta",
+                "dataSourceId":
+                    "derived:com.google.distance.delta:com.google.android.gms:merge_distance_delta"
+              },
             ],
             "bucketByTime": {"durationMillis": 86400000},
             "startTimeMillis": yesterday,
@@ -59,41 +71,16 @@ class GetDataFromGoogleFit {
     var yesterdayDate = _getTodayDate()[0];
     var nowTime = _getTodayDate()[1];
 
-    // var response2 = await http.post(
-    //     Uri.parse(
-    //         'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate'),
-    //     headers: {
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //       'Authorization': 'Bearer $_accessToken',
-    //     },
-    //     body: jsonEncode(
-    //       {
-    //         "aggregateBy": [
-    //           // {
-    //           //   "dataSourceId":
-    //           //       "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
-    //           // },
-    //           // {
-    //           //   "dataSourceId":
-    //           //       "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended"
-    //           // },
-    //           {"dataTypeName": "steps"},
-    //         ],
-    //         "bucketByTime": {"durationMillis": 86400000},
-    //         "startTimeMillis": yesterday,
-    //         "endTimeMillis": nowTime,
-    //       },
-    //     ));
-
     var response = await _sendRequest(_accessToken, yesterdayDate, nowTime);
 
     response.statusCode == 200
         ? {dev.log(response.body)}
         : {dev.log(response.statusCode.toString())};
 
-    var steps = '0';
+    var arrayDataFromGoogleFit;
     try {
-      steps = GoogleFitData.fromJson(jsonDecode(response.body)).toString();
+      arrayDataFromGoogleFit =
+          GoogleFitData.fromJson(jsonDecode(response.body)).toList();
     } catch (e) {
       final providerReLogin = GoogleSignInProvider();
       providerReLogin.reLogin();
@@ -101,7 +88,11 @@ class GetDataFromGoogleFit {
 
       dev.log('CATCH Resposne = $_accessToken');
     }
+    // dev.log('${arrayDataFromGoogleFit.toList()[ActivityTypes.distance.index]}');
 
-    return steps;
+    return [
+      arrayDataFromGoogleFit.toList()[ActivityTypes.steps.index],
+      arrayDataFromGoogleFit.toList()[ActivityTypes.distance.index],
+    ];
   }
 }

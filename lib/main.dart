@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => GoogleSignInProvider()),
-        ChangeNotifierProvider(create: (context) => MyModelStepData())
+        ChangeNotifierProvider(create: (context) => MyModelGoogleFitData())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

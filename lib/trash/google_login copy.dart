@@ -70,9 +70,9 @@ class GoogleLogin {
   Future test() async {
     FirebaseAuth.instance.idTokenChanges().listen((User? user) {
       if (user == null) {
-        print('User is currently signed out!');
+        // print('User is currently signed out!');
       } else {
-        print('User is signed in!');
+        //  print('User is signed in!');
       }
     });
   }

@@ -1,4 +1,3 @@
-import 'package:activity_tracker/logic/google_login.dart';
 import 'package:activity_tracker/logic/get_data_from_google_fit.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class _FitRestApiTestState extends State<FitRestApiTest> {
 
   @override
   Widget build(BuildContext context) {
-    final googleLogin = GoogleSignInProvider();
+    // final googleLogin = GoogleSignInProvider();
     final getDataFromGoogleFit = GetDataFromGoogleFit();
     return Center(
       child: Column(
