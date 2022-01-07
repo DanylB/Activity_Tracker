@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 enum ActivityTypes {
   steps,
   distance,
+  calories,
 }
 
 class MyModelGoogleFitData extends ChangeNotifier {
@@ -12,6 +13,9 @@ class MyModelGoogleFitData extends ChangeNotifier {
 
   double distanceCount = 0;
   double distanceProgress = 0.0;
+
+  int caloriesCount = 0;
+  double caloriesProgress = 0.0;
 
   final getDataFromGoogleFit = GetDataFromGoogleFit();
 
@@ -23,8 +27,10 @@ class MyModelGoogleFitData extends ChangeNotifier {
     ////
     distanceCount = dataFromGoogleFit[ActivityTypes.distance.index] / 1000;
     distanceCount = double.parse(distanceCount.toStringAsFixed(3));
-
     distanceProgress = distanceCount / 20;
+    ////.
+    caloriesCount = dataFromGoogleFit[ActivityTypes.calories.index];
+    caloriesProgress = caloriesCount / 10000;
 
     notifyListeners();
   }

@@ -10,6 +10,7 @@ import 'deserialization_data_from_google_fit.dart';
 enum ActivityTypes {
   steps,
   distance,
+  calories,
 }
 
 class GetDataFromGoogleFit {
@@ -27,6 +28,7 @@ class GetDataFromGoogleFit {
             "aggregateBy": [
               //steps
               {
+                // "dataTypeName": "com.google.step_count.delta",
                 "dataSourceId":
                     "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
               },
@@ -35,6 +37,23 @@ class GetDataFromGoogleFit {
                 "dataTypeName": "com.google.distance.delta",
                 "dataSourceId":
                     "derived:com.google.distance.delta:com.google.android.gms:merge_distance_delta"
+              },
+              //calories
+              {
+                "dataTypeName": "com.google.calories.expended",
+                "dataSourceId":
+                    "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended"
+              },
+              //
+              //{
+              // "dataTypeName": "com.google.sleep.segment",
+              // "dataSourceId":
+              //     "derived:com.google.sleep.segment:com.google.android.gms:merged"
+              // },
+              {
+                "dataTypeName": "com.google.active_minutes",
+                "dataSourceId":
+                    "derived:com.google.active_minutes:com.google.android.gms:merge_active_minutes"
               },
             ],
             "bucketByTime": {"durationMillis": 86400000},
@@ -81,8 +100,11 @@ class GetDataFromGoogleFit {
         : {dev.log(response.statusCode.toString())};
     var arrayDataFromGoogleFit = [];
 
-    // dev.log(jsonDecode(response.body)['bucket'][0]['dataset'][1]['point']
-    //     .toString());
+    // dev.log(jsonDecode(response.body)['bucket'][0]['dataset'][2]['point'][0]
+    //         ['value'][0]['fpVal']
+    //     .toString()
+    //     .split('.')
+    //     .toList()[0]);
 
     // if (jsonDecode(response.body)['bucket'][0]['dataset'][1]['point']
     //         .toString() ==
@@ -98,11 +120,12 @@ class GetDataFromGoogleFit {
 
       // dev.log('CATCH Resposne = $_accessToken');
     }
-    // dev.log('${arrayDataFromGoogleFit.toList()[ActivityTypes.steps.index]}');
+    dev.log('${arrayDataFromGoogleFit.toList()[ActivityTypes.steps.index]}');
 
     return [
       arrayDataFromGoogleFit.toList()[ActivityTypes.steps.index],
       arrayDataFromGoogleFit.toList()[ActivityTypes.distance.index],
+      arrayDataFromGoogleFit.toList()[ActivityTypes.calories.index],
     ];
   }
 }

@@ -40,6 +40,10 @@ class HomePage extends StatelessWidget {
                       const SizedBox(height: 22),
                       _buildDistanseCard(provider),
                       const SizedBox(height: 22),
+                      _buildCaloriesCard(provider),
+                      const SizedBox(height: 22),
+                      _buildActivityTimeCard(provider),
+                      const SizedBox(height: 22),
                       _buildGetStepDataButton(context),
                       _buildLogoutButton(context),
                     ]),
@@ -52,7 +56,7 @@ class HomePage extends StatelessWidget {
             bottom: 0,
             left: 0,
             child: Text(
-              'Build 0.5.200',
+              'Build 0.5.500',
               style: Theme.of(context).textTheme.headline4,
             ),
           ),
@@ -90,14 +94,40 @@ class HomePage extends StatelessWidget {
 
   BuildDashboardCard _buildDistanseCard(MyModelGoogleFitData provider) {
     return BuildDashboardCard(
-      title: 'Пройдено расстояние',
+      title: 'Расстояние',
       counterValue: '${provider.distanceCount} км / 20 км',
       progressPercent: provider.distanceProgress,
-      cardBackground: const Color(0xFFFFF2DF).withOpacity(.1),
-      progressBackgroundColor: const Color(0xFFFFAB2E).withOpacity(.2),
-      progressValueColor: const Color(0xFFFFAB2E),
-      iconBackgroundColor: const Color(0xFFFFAB2E).withOpacity(.05),
+      cardBackground: const Color(0xFFC9FFE3).withOpacity(.1),
+      progressBackgroundColor: const Color(0xFF22C771).withOpacity(.2),
+      progressValueColor: const Color(0xFF22C771),
+      iconBackgroundColor: const Color(0xFF22C771).withOpacity(.05),
       icon: 'assets/distanse_icon.png',
+    );
+  }
+
+  BuildDashboardCard _buildCaloriesCard(MyModelGoogleFitData provider) {
+    return BuildDashboardCard(
+      title: 'Сожжено калорий',
+      counterValue: '${provider.caloriesCount} ккал',
+      progressPercent: provider.caloriesProgress,
+      cardBackground: const Color(0xFFFFDEE0).withOpacity(.1),
+      progressBackgroundColor: const Color(0xFFFF4A55).withOpacity(.2),
+      progressValueColor: const Color(0xFFFF4A55),
+      iconBackgroundColor: const Color(0xFFFF4A55).withOpacity(.05),
+      icon: 'assets/calories_icon.png',
+    );
+  }
+
+  BuildDashboardCard _buildActivityTimeCard(MyModelGoogleFitData provider) {
+    return BuildDashboardCard(
+      title: 'Время активности',
+      counterValue: 'пока хз',
+      progressPercent: provider.caloriesProgress,
+      cardBackground: const Color(0xFFCEC6FD).withOpacity(.1),
+      progressBackgroundColor: const Color(0xFF6D55FF).withOpacity(.2),
+      progressValueColor: const Color(0xFF6D55FF),
+      iconBackgroundColor: const Color(0xFF6D55FF).withOpacity(.05),
+      icon: 'assets/activ_time_icon.png',
     );
   }
 
