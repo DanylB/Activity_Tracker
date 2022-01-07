@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:activity_tracker/logic/google_login.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as dev;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +67,8 @@ class GetDataFromGoogleFit {
     return [yesterday, nowTime];
   }
 
+  var arrayDataFromGoogleFit = [0, 0];
+
   Future printData() async {
     var _accessToken = await _getAccessToken();
     var yesterdayDate = _getTodayDate()[0];
@@ -76,8 +79,15 @@ class GetDataFromGoogleFit {
     response.statusCode == 200
         ? {dev.log(response.body)}
         : {dev.log(response.statusCode.toString())};
+    var arrayDataFromGoogleFit = [];
 
-    var arrayDataFromGoogleFit;
+    // dev.log(jsonDecode(response.body)['bucket'][0]['dataset'][1]['point']
+    //     .toString());
+
+    // if (jsonDecode(response.body)['bucket'][0]['dataset'][1]['point']
+    //         .toString() ==
+    //     '[]') dev.log('QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ');
+
     try {
       arrayDataFromGoogleFit =
           GoogleFitData.fromJson(jsonDecode(response.body)).toList();
@@ -86,9 +96,9 @@ class GetDataFromGoogleFit {
       providerReLogin.reLogin();
       await _sendRequest(_accessToken, yesterdayDate, nowTime);
 
-      dev.log('CATCH Resposne = $_accessToken');
+      // dev.log('CATCH Resposne = $_accessToken');
     }
-    // dev.log('${arrayDataFromGoogleFit.toList()[ActivityTypes.distance.index]}');
+    // dev.log('${arrayDataFromGoogleFit.toList()[ActivityTypes.steps.index]}');
 
     return [
       arrayDataFromGoogleFit.toList()[ActivityTypes.steps.index],

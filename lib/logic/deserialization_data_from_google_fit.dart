@@ -1,5 +1,5 @@
 class GoogleFitData {
-  var stepCountFromFit;
+  var stepCountFromFit = [];
 
   GoogleFitData(
     this.stepCountFromFit,
@@ -7,17 +7,28 @@ class GoogleFitData {
 
   factory GoogleFitData.fromJson(dynamic json) {
     return GoogleFitData([
-      json['bucket'][0]['dataset'][0]['point'][0]['value'][0]['intVal'],
-      json['bucket'][0]['dataset'][1]['point'][0]['value'][0]['fpVal'],
+      /// steps
+      json['bucket'][0]['dataset'][0]['point'].toString() == '[]'
+          ? 0.toString()
+          : '${json['bucket'][0]['dataset'][0]['point'][0]['value'][0]['intVal']}',
+
+      ///distance
+      json['bucket'][0]['dataset'][1]['point'].toString() == '[]'
+          ? '0'
+          : '${json['bucket'][0]['dataset'][1]['point'][0]['value'][0]['fpVal']}',
     ]);
   }
 
-  // @override
-  // String toString() {
-  //   return ' $stepCountFromFit ';
-  // }
-
-  toList() {
-    return stepCountFromFit;
+  @override
+  List<int> toList() {
+    return [
+      int.parse(stepCountFromFit[ActivityTypes.steps.index]),
+      int.parse(stepCountFromFit[ActivityTypes.distance.index]),
+    ];
   }
+}
+
+enum ActivityTypes {
+  steps,
+  distance,
 }

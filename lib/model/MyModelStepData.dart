@@ -9,6 +9,7 @@ enum ActivityTypes {
 class MyModelGoogleFitData extends ChangeNotifier {
   int stepCount = 0;
   double stepProgress = 0.0;
+
   double distanceCount = 0;
   double distanceProgress = 0.0;
 
@@ -21,7 +22,7 @@ class MyModelGoogleFitData extends ChangeNotifier {
     stepProgress = stepCount / 10000;
     ////
     distanceCount = dataFromGoogleFit[ActivityTypes.distance.index] / 1000;
-    distanceCount = double.parse(distanceCount.toStringAsFixed(2));
+    distanceCount = double.parse(distanceCount.toStringAsFixed(3));
 
     distanceProgress = distanceCount / 20;
 
