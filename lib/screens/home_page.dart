@@ -14,7 +14,8 @@ class HomePage extends StatelessWidget {
 
     final provider = Provider.of<MyModelGoogleFitData>(context);
     return Scaffold(
-      backgroundColor: Colors.green,
+      // backgroundColor: Colors.green,
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Container(height: sizeH),
@@ -24,7 +25,7 @@ class HomePage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.fromLTRB(22, 90, 22, 0),
               width: sizeW,
-              height: sizeH,
+              height: sizeH * .8,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -46,6 +47,7 @@ class HomePage extends StatelessWidget {
                       const SizedBox(height: 22),
                       _buildGetStepDataButton(context),
                       _buildLogoutButton(context),
+                      const SizedBox(height: 500),
                     ]),
                   ),
                 ],
@@ -55,13 +57,24 @@ class HomePage extends StatelessWidget {
           Positioned(
             bottom: 0,
             left: 0,
-            child: Text(
-              'Build 0.5.500',
-              style: Theme.of(context).textTheme.headline4,
+            right: 0,
+            child: BuildBottomNavBar(
+              pageIndexPage: 1,
             ),
           ),
         ],
       ),
+      // bottomNavigationBar: Container(
+      //   width: 100,
+      //   height: 50,
+      //   color: Colors.red,
+      // ),
+      // bottomNavigationBar: const BottomNavBar(),
+      // bottomNavigationBar: Container(
+      //   width: 400,
+      //   height: 80,
+      //   color: Colors.red,
+      // ),
     );
   }
 

@@ -15,9 +15,11 @@ class GoogleFitData {
       ///distance String
       json['bucket'][0]['dataset'][1]['point'].toString() == '[]'
           ? '0'
-          : '${json['bucket'][0]['dataset'][1]['point'][0]['value'][0]['fpVal']}',
+          : '${json['bucket'][0]['dataset'][1]['point'][0]['value'][0]['fpVal']}'
+              .split('.')
+              .toList()[0],
 
-      ///calories int
+      // ///calories int
       json['bucket'][0]['dataset'][2]['point'].toString() == '[]'
           ? '0'
           : '${json['bucket'][0]['dataset'][2]['point'][0]['value'][0]['fpVal']}'
@@ -32,6 +34,9 @@ class GoogleFitData {
       int.parse(stepCountFromFit[ActivityTypes.steps.index]),
       int.parse(stepCountFromFit[ActivityTypes.distance.index]),
       int.parse(stepCountFromFit[ActivityTypes.calories.index]),
+      // 1000,
+      // 1000,
+      // 1000,
     ];
   }
 }

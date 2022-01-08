@@ -60,6 +60,8 @@ dev_dependencies:
   # Google Fonts
   google_fonts: ^2.1.1
 
+  flutter_svg: ^1.0.0
+
   # share_plus: ^3.0.4
 
   # State Management

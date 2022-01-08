@@ -28,7 +28,7 @@ class GetDataFromGoogleFit {
             "aggregateBy": [
               //steps
               {
-                // "dataTypeName": "com.google.step_count.delta",
+                "dataTypeName": "com.google.step_count.delta",
                 "dataSourceId":
                     "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
               },
@@ -50,11 +50,11 @@ class GetDataFromGoogleFit {
               // "dataSourceId":
               //     "derived:com.google.sleep.segment:com.google.android.gms:merged"
               // },
-              {
-                "dataTypeName": "com.google.active_minutes",
-                "dataSourceId":
-                    "derived:com.google.active_minutes:com.google.android.gms:merge_active_minutes"
-              },
+              // {
+              //   "dataTypeName": "com.google.active_minutes",
+              //   "dataSourceId":
+              //       "derived:com.google.active_minutes:com.google.android.gms:merge_active_minutes"
+              // },
             ],
             "bucketByTime": {"durationMillis": 86400000},
             "startTimeMillis": yesterday,

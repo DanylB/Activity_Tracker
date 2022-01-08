@@ -1,4 +1,5 @@
 import 'package:activity_tracker/logic/google_login.dart';
+import 'package:activity_tracker/screens/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,8 +13,8 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-          // stream: FirebaseAuth.instance.idTokenChanges(),
-          stream: FirebaseAuth.instance.authStateChanges(),
+          stream: FirebaseAuth.instance.idTokenChanges(),
+          // stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -22,6 +23,7 @@ class LoginPage extends StatelessWidget {
             } else if (snapshot.hasData) {
               // return const FitRestApiTest();
               return const HomePage();
+              // return MainPage();
             } else if (snapshot.hasError) {
               return const Center(
                 child: Text('ERROR'),
