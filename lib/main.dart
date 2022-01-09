@@ -2,12 +2,11 @@ import 'package:activity_tracker/logic/google_login.dart';
 import 'package:flutter/material.dart';
 import 'package:activity_tracker/screens/export.dart';
 import 'package:provider/provider.dart';
-// import 'provider/google_sign_in.dart';
 import 'package:flutter/services.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 
-import 'model/MyModelStepData.dart';
+import 'models/bottom_nav_bar_page_index_model.dart';
+import 'models/google_fit_data_model.dart';
 
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
@@ -30,7 +29,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => GoogleSignInProvider()),
-        ChangeNotifierProvider(create: (context) => MyModelGoogleFitData())
+        ChangeNotifierProvider(create: (context) => GoogleFitDataModel()),
+        ChangeNotifierProvider(
+            create: (context) => BottomNavBarPageIndexModel())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -45,7 +46,6 @@ class MyApp extends StatelessWidget {
           '/profile_page': (context) => const ProfilePage(),
         },
         home: const LoginPage(),
-        // home: const HomePage(),
       ),
     );
   }

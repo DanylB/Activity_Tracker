@@ -1,20 +1,26 @@
 import 'package:activity_tracker/logic/google_login.dart';
-import 'package:activity_tracker/model/MyModelStepData.dart';
+import 'package:activity_tracker/models/google_fit_data_model.dart';
 import 'package:activity_tracker/widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final sizeW = MediaQuery.of(context).size.width;
     final sizeH = MediaQuery.of(context).size.height;
+    TabController tabController = TabController(length: 4, vsync: this);
 
-    final provider = Provider.of<MyModelGoogleFitData>(context);
+    final provider = Provider.of<GoogleFitDataModel>(context);
     return Scaffold(
-      // backgroundColor: Colors.green,
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -32,49 +38,98 @@ class HomePage extends StatelessWidget {
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30)),
               ),
-              child: CustomScrollView(
-                primary: false,
-                slivers: [
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      _buildStepCard(provider),
-                      const SizedBox(height: 22),
-                      _buildDistanseCard(provider),
-                      const SizedBox(height: 22),
-                      _buildCaloriesCard(provider),
-                      const SizedBox(height: 22),
-                      _buildActivityTimeCard(provider),
-                      const SizedBox(height: 22),
-                      _buildGetStepDataButton(context),
-                      _buildLogoutButton(context),
-                      const SizedBox(height: 500),
-                    ]),
-                  ),
-                ],
-              ),
             ),
           ),
           Positioned(
-            bottom: 0,
+            top: 100,
             left: 0,
-            right: 0,
-            child: BuildBottomNavBar(
-              pageIndexPage: 1,
+            child: Column(
+              children: [
+                _buildTabBar(sizeW, tabController),
+                SizedBox(
+                  height: sizeH,
+                  width: sizeW,
+                  child: TabBarView(
+                    controller: tabController,
+                    children: [
+                      _buildReviewTab(provider, context),
+                      Container(
+                        color: Colors.white,
+                        child: const Center(
+                          child: Text('Хотьба'),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        child: const Center(
+                          child: Text('Калории'),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        child: const Center(
+                          child: Text('Сон'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-      // bottomNavigationBar: Container(
-      //   width: 100,
-      //   height: 50,
-      //   color: Colors.red,
-      // ),
-      // bottomNavigationBar: const BottomNavBar(),
-      // bottomNavigationBar: Container(
-      //   width: 400,
-      //   height: 80,
-      //   color: Colors.red,
-      // ),
+    );
+  }
+
+  Padding _buildReviewTab(GoogleFitDataModel provider, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
+      child: CustomScrollView(
+        primary: false,
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate([
+              _buildStepCard(provider),
+              const SizedBox(height: 22),
+              _buildDistanseCard(provider),
+              const SizedBox(height: 22),
+              _buildCaloriesCard(provider),
+              const SizedBox(height: 22),
+              _buildActivityTimeCard(provider),
+              const SizedBox(height: 22),
+              _buildGetStepDataButton(context),
+              _buildLogoutButton(context),
+              const SizedBox(height: 250),
+            ]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  SizedBox _buildTabBar(double sizeW, TabController tabController) {
+    return SizedBox(
+      height: 80,
+      width: sizeW,
+      child: TabBar(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        labelPadding: EdgeInsets.zero,
+        controller: tabController,
+        indicatorColor: Colors.transparent,
+        labelColor: const Color(0xFF4A4A4A),
+        unselectedLabelColor: const Color(0xFF4A4A4A).withOpacity(.4),
+        labelStyle:
+            GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold),
+        unselectedLabelStyle:
+            GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold),
+        tabs: const [
+          Text('Обзор'),
+          Text('Хотьба'),
+          Text('Калории'),
+          Text('Сон'),
+        ],
+      ),
     );
   }
 
@@ -92,7 +147,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  BuildDashboardCard _buildStepCard(MyModelGoogleFitData provider) {
+  BuildDashboardCard _buildStepCard(GoogleFitDataModel provider) {
     return BuildDashboardCard(
       title: 'Пройдено шагов',
       counterValue: '${provider.stepCount} / 10 000',
@@ -105,7 +160,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  BuildDashboardCard _buildDistanseCard(MyModelGoogleFitData provider) {
+  BuildDashboardCard _buildDistanseCard(GoogleFitDataModel provider) {
     return BuildDashboardCard(
       title: 'Расстояние',
       counterValue: '${provider.distanceCount} км / 20 км',
@@ -118,7 +173,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  BuildDashboardCard _buildCaloriesCard(MyModelGoogleFitData provider) {
+  BuildDashboardCard _buildCaloriesCard(GoogleFitDataModel provider) {
     return BuildDashboardCard(
       title: 'Сожжено калорий',
       counterValue: '${provider.caloriesCount} ккал',
@@ -131,7 +186,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  BuildDashboardCard _buildActivityTimeCard(MyModelGoogleFitData provider) {
+  BuildDashboardCard _buildActivityTimeCard(GoogleFitDataModel provider) {
     return BuildDashboardCard(
       title: 'Время активности',
       counterValue: 'пока хз',
@@ -145,7 +200,7 @@ class HomePage extends StatelessWidget {
   }
 
   _buildGetStepDataButton(BuildContext context) {
-    var provider = Provider.of<MyModelGoogleFitData>(context, listen: false);
+    var provider = Provider.of<GoogleFitDataModel>(context, listen: false);
     return ElevatedButton(
       onPressed: () => provider.getData(),
       child: const Text('TAP ME !!!'),

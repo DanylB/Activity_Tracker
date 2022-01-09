@@ -7,7 +7,7 @@ enum ActivityTypes {
   calories,
 }
 
-class MyModelGoogleFitData extends ChangeNotifier {
+class GoogleFitDataModel extends ChangeNotifier {
   int stepCount = 0;
   double stepProgress = 0.0;
 

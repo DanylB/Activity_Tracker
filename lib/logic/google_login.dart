@@ -9,14 +9,14 @@ class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn(
     scopes: <String>[
       'https://www.googleapis.com/auth/fitness.activity.read',
-      'https://www.googleapis.com/auth/fitness.location.read',
+      'https://www.googleapis.com/auth/fitness.location.read', // для пройденой дистанции
       'https://www.googleapis.com/auth/fitness.body.read',
-      'https://www.googleapis.com/auth/fitness.nutrition.read',
-      'https://www.googleapis.com/auth/fitness.blood_pressure.read',
-      'https://www.googleapis.com/auth/fitness.blood_glucose.read',
-      'https://www.googleapis.com/auth/fitness.oxygen_saturation.read',
-      'https://www.googleapis.com/auth/fitness.body_temperature.read',
-      'https://www.googleapis.com/auth/fitness.reproductive_health.read',
+      // 'https://www.googleapis.com/auth/fitness.nutrition.read',
+      // 'https://www.googleapis.com/auth/fitness.blood_pressure.read',
+      // 'https://www.googleapis.com/auth/fitness.blood_glucose.read',
+      // 'https://www.googleapis.com/auth/fitness.oxygen_saturation.read',
+      // 'https://www.googleapis.com/auth/fitness.body_temperature.read',
+      // 'https://www.googleapis.com/auth/fitness.reproductive_health.read',
     ],
   );
 
@@ -61,13 +61,6 @@ class GoogleSignInProvider extends ChangeNotifier {
       _user = googleUser;
 
       final googleAuth = await googleUser.authentication;
-
-      // final credential = GoogleAuthProvider.credential(
-      //   accessToken: googleAuth.accessToken,
-      //   idToken: googleAuth.idToken,
-      // );
-
-      // await FirebaseAuth.instance.signInWithCredential(credential);
 
       /// Save Access Token in Local Storage
       final accessToken = googleAuth.accessToken;

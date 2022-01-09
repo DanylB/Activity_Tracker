@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:activity_tracker/logic/google_login.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as dev;
 import 'package:shared_preferences/shared_preferences.dart';

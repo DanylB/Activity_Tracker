@@ -28,15 +28,11 @@ class GoogleFitData {
     ]);
   }
 
-  @override
   List<int> toList() {
     return [
       int.parse(stepCountFromFit[ActivityTypes.steps.index]),
       int.parse(stepCountFromFit[ActivityTypes.distance.index]),
       int.parse(stepCountFromFit[ActivityTypes.calories.index]),
-      // 1000,
-      // 1000,
-      // 1000,
     ];
   }
 }

@@ -1,4 +1,3 @@
-import 'package:activity_tracker/widgets/export.dart';
 import 'package:flutter/material.dart';
 
 class BarCodePage extends StatelessWidget {
@@ -6,11 +5,10 @@ class BarCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text('BarCode Page'),
       ),
-      bottomNavigationBar: BuildBottomNavBar(pageIndexPage: 3),
     );
   }
 }
