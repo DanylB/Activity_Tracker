@@ -5,6 +5,7 @@ enum ActivityTypes {
   steps,
   distance,
   calories,
+  activMinutes,
 }
 
 class GoogleFitDataModel extends ChangeNotifier {
@@ -16,6 +17,9 @@ class GoogleFitDataModel extends ChangeNotifier {
 
   int caloriesCount = 0;
   double caloriesProgress = 0.0;
+
+  int activMinutesCount = 0;
+  double activMinutesProgress = 0.0;
 
   final getDataFromGoogleFit = GetDataFromGoogleFit();
 
@@ -31,6 +35,9 @@ class GoogleFitDataModel extends ChangeNotifier {
     ////.
     caloriesCount = dataFromGoogleFit[ActivityTypes.calories.index];
     caloriesProgress = caloriesCount / 10000;
+    ////.
+    activMinutesCount = dataFromGoogleFit[ActivityTypes.activMinutes.index];
+    activMinutesProgress = activMinutesCount / 120;
 
     notifyListeners();
   }

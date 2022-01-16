@@ -9,7 +9,7 @@ class ProfilePage extends StatelessWidget {
         body: Scaffold(
       body: Center(
         child: Text(
-          'Build 0.7.000',
+          'Build 0.7.100',
           style: Theme.of(context).textTheme.headline5,
         ),
       ),

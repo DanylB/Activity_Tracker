@@ -10,6 +10,7 @@ enum ActivityTypes {
   steps,
   distance,
   calories,
+  activMinutes,
 }
 
 class GetDataFromGoogleFit {
@@ -43,17 +44,14 @@ class GetDataFromGoogleFit {
                 "dataSourceId":
                     "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended"
               },
-              //
-              //{
-              // "dataTypeName": "com.google.sleep.segment",
-              // "dataSourceId":
-              //     "derived:com.google.sleep.segment:com.google.android.gms:merged"
-              // },
-              // {
-              //   "dataTypeName": "com.google.active_minutes",
-              //   "dataSourceId":
-              //       "derived:com.google.active_minutes:com.google.android.gms:merge_active_minutes"
-              // },
+              //active minutes
+              {
+                "dataTypeName": "com.google.active_minutes",
+              },
+              //speed
+              {
+                "dataTypeName": "com.google.speed",
+              },
             ],
             "bucketByTime": {"durationMillis": 86400000},
             "startTimeMillis": yesterday,
@@ -105,7 +103,7 @@ class GetDataFromGoogleFit {
     //     .split('.')
     //     .toList()[0]);
 
-    // if (jsonDecode(response.body)['bucket'][0]['dataset'][1]['point']
+    // if (jsonDecode(response.body)['bucket'][0]['dataset'][3]['point']
     //         .toString() ==
     //     '[]') dev.log('QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ');
 
@@ -125,6 +123,7 @@ class GetDataFromGoogleFit {
       arrayDataFromGoogleFit.toList()[ActivityTypes.steps.index],
       arrayDataFromGoogleFit.toList()[ActivityTypes.distance.index],
       arrayDataFromGoogleFit.toList()[ActivityTypes.calories.index],
+      arrayDataFromGoogleFit.toList()[ActivityTypes.activMinutes.index],
     ];
   }
 }

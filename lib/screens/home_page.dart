@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   BuildDashboardCard _buildCaloriesCard(GoogleFitDataModel provider) {
     return BuildDashboardCard(
       title: 'Сожжено калорий',
-      counterValue: '${provider.caloriesCount} ккал',
+      counterValue: '${provider.caloriesCount} кал',
       progressPercent: provider.caloriesProgress,
       cardBackground: const Color(0xFFFFDEE0).withOpacity(.1),
       progressBackgroundColor: const Color(0xFFFF4A55).withOpacity(.2),
@@ -189,8 +189,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   BuildDashboardCard _buildActivityTimeCard(GoogleFitDataModel provider) {
     return BuildDashboardCard(
       title: 'Время активности',
-      counterValue: 'пока хз',
-      progressPercent: provider.caloriesProgress,
+      counterValue: '${provider.activMinutesCount} мин / 120 мин',
+      progressPercent: provider.activMinutesProgress,
       cardBackground: const Color(0xFFCEC6FD).withOpacity(.1),
       progressBackgroundColor: const Color(0xFF6D55FF).withOpacity(.2),
       progressValueColor: const Color(0xFF6D55FF),
