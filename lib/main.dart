@@ -1,4 +1,5 @@
 import 'package:activity_tracker/logic/google_login.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:activity_tracker/screens/export.dart';
 import 'package:provider/provider.dart';
@@ -8,12 +9,23 @@ import 'package:firebase_core/firebase_core.dart';
 import 'models/bottom_nav_bar_page_index_model.dart';
 import 'models/google_fit_data_model.dart';
 
+import 'package:device_preview/device_preview.dart';
+
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
+// Future main() async {
+//   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(DevicePreview(
+//     enabled: !kReleaseMode,
+//     builder: (context) => const MyApp(),
+//   ));
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -34,6 +46,12 @@ class MyApp extends StatelessWidget {
             create: (context) => BottomNavBarPageIndexModel())
       ],
       child: MaterialApp(
+        //
+        // useInheritedMediaQuery: true,
+        // locale: DevicePreview.locale(context),
+        // builder: DevicePreview.appBuilder,
+
+        //
         debugShowCheckedModeBanner: false,
         theme: ThemeData(brightness: Brightness.light),
         initialRoute: '/',

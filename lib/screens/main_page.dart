@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:activity_tracker/widgets/export.dart';
 
+import 'bar_code_page.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -20,11 +22,14 @@ class _MainPageState extends State<MainPage> {
     var provider =
         Provider.of<BottomNavBarPageIndexModel>(context, listen: false);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: PageView(
         controller: provider.pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: const [
           HomePage(),
+          /* for develop*/
+          // ProfilePage(),
           Scaffold(
             body: MapPage(),
           ),
