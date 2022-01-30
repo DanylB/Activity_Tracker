@@ -49,8 +49,15 @@ class BuildProfileAppBar extends StatelessWidget {
             ),
           ),
           Positioned(
-            right: 20,
-            child: SvgPicture.asset('assets/settings_icon.svg'),
+            right: 10,
+            child: IconButton(
+              splashRadius: 100,
+              padding: const EdgeInsets.all(10),
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings_page');
+              },
+              icon: SvgPicture.asset('assets/settings_icon.svg'),
+            ),
           ),
         ],
       ),

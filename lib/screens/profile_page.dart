@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:activity_tracker/widgets/BuildProfileAppBar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 // class ProfilePage extends StatelessWidget {
 //   const ProfilePage({Key? key}) : super(key: key);
@@ -67,15 +68,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(height: 20),
+                          SizedBox(height: 30),
                           _buildAvatar(user, sizeW),
-                          SizedBox(height: 30),
-                          _buildUserName(user),
-                          SizedBox(height: 25),
-                          _buildBodyInformation(sizeW),
-                          SizedBox(height: 30),
-                          _buildRecordTitleWithShare(),
                           SizedBox(height: 20),
+                          _buildUserName(user),
+                          SizedBox(height: 30),
+                          _buildBodyInformation(sizeW),
+                          SizedBox(height: 10),
+                          _buildRecordTitleWithShare(),
+                          SizedBox(height: 10),
                           _buildRecordGrid(sizeW, sizeH),
                         ],
                       ),
@@ -98,10 +99,20 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  CircleAvatar _buildAvatar(User user, double sizeW) {
-    return CircleAvatar(
-      backgroundImage: NetworkImage(user.photoURL!),
-      radius: sizeW * .12,
+  // CircleAvatar _buildAvatar(User user, double sizeW) {
+  //   return CircleAvatar(
+  //     backgroundImage: NetworkImage(user.photoURL!),
+  //     radius: sizeW * .12,
+  //   );
+  // }
+  _buildAvatar(User user, double sizeW) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(sizeW),
+      child: CachedNetworkImage(
+        imageUrl: user.photoURL!,
+        placeholder: (context, url) => CircularProgressIndicator(),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
     );
   }
 
@@ -116,8 +127,18 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Color(0xFF505050),
               fontWeight: FontWeight.w500),
         ),
-        SizedBox(width: 10),
-        SvgPicture.asset('assets/share_icon.svg')
+        // SizedBox(width: 10),
+
+        IconButton(
+          onPressed: () {},
+          icon: SvgPicture.asset('assets/share_icon_bold.svg'),
+          iconSize: 26,
+          padding: const EdgeInsets.all(5),
+          highlightColor: Color(0xFF1F88FE).withOpacity(.1),
+          splashColor: Color(0xFF1F88FE).withOpacity(.2),
+        ),
+
+        // SvgPicture.asset('assets/share_icon.svg')
       ],
     );
   }

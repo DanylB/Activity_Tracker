@@ -39,7 +39,6 @@ class _BuildBottomNavBarState extends State<BuildBottomNavBar> {
 
           /// inside container
           padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             boxShadow: [

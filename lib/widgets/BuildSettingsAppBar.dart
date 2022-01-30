@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'dart:ui';
 
-class BuildAppBar extends StatelessWidget {
-  const BuildAppBar({
+class BuildSettingsAppBar extends StatelessWidget {
+  const BuildSettingsAppBar({
     Key? key,
     required this.sizeW,
   }) : super(key: key);
@@ -44,6 +45,20 @@ class BuildAppBar extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.7,
+              ),
+            ),
+          ),
+          Positioned(
+            left: 10,
+            child: IconButton(
+              splashRadius: 100,
+              padding: const EdgeInsets.all(10),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
               ),
             ),
           ),
