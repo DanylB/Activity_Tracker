@@ -144,51 +144,7 @@ class SettingsPage extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 32),
-                            Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: const Color(0xFF808080)
-                                          .withOpacity(.25),
-                                      blurRadius: 12,
-                                      spreadRadius: -2,
-                                      offset: const Offset(0, 4)),
-                                ],
-                              ),
-                              child: TextButton(
-                                onPressed: () {
-                                  final googleLogoutProvider =
-                                      Provider.of<GoogleSignInProvider>(context,
-                                          listen: false);
-                                  googleLogoutProvider.logout();
-                                },
-                                style: TextButton.styleFrom(
-                                  primary: Color(0xFF308CFF),
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset('assets/log_out_icon.svg'),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      'Выйти',
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xFFFF1616),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            _buildLogoutButton(context),
                             const SizedBox(height: 16),
                           ],
                         ),
@@ -200,6 +156,52 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container _buildLogoutButton(BuildContext context) {
+    return Container(
+      height: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+              color: const Color(0xFF808080).withOpacity(.25),
+              blurRadius: 12,
+              spreadRadius: -2,
+              offset: const Offset(0, 4)),
+        ],
+      ),
+      child: TextButton(
+        onPressed: () {
+          final googleLogoutProvider =
+              Provider.of<GoogleSignInProvider>(context, listen: false);
+          Navigator.pop(context);
+          googleLogoutProvider.logout();
+        },
+        style: TextButton.styleFrom(
+          primary: Color(0xFF308CFF),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/log_out_icon.svg'),
+            const SizedBox(width: 8),
+            Text(
+              'Выйти',
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFFFF1616),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
