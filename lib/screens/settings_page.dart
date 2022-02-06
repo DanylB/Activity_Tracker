@@ -1,6 +1,9 @@
+import 'package:activity_tracker/logic/google_login.dart';
 import 'package:flutter/material.dart';
 import 'package:activity_tracker/widgets/export.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -37,7 +40,7 @@ class SettingsPage extends StatelessWidget {
               }
             },
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 100, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 110, 20, 0),
               child: CustomScrollView(
                 primary: false,
                 slivers: [
@@ -140,6 +143,53 @@ class SettingsPage extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            const SizedBox(height: 32),
+                            Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: const Color(0xFF808080)
+                                          .withOpacity(.25),
+                                      blurRadius: 12,
+                                      spreadRadius: -2,
+                                      offset: const Offset(0, 4)),
+                                ],
+                              ),
+                              child: TextButton(
+                                onPressed: () {
+                                  final googleLogoutProvider =
+                                      Provider.of<GoogleSignInProvider>(context,
+                                          listen: false);
+                                  googleLogoutProvider.logout();
+                                },
+                                style: TextButton.styleFrom(
+                                  primary: Color(0xFF308CFF),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset('assets/log_out_icon.svg'),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Выйти',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xFFFF1616),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
                           ],
                         ),
                       ),
@@ -208,19 +258,19 @@ class SettingsPage extends StatelessWidget {
             children: [
               _buildBodyParameterField(
                 label: 'Возраст',
-                hintText: '23',
+                hintText: 'Возраст',
                 suffixText: 'года',
               ),
               const SizedBox(width: 15),
               _buildBodyParameterField(
                 label: 'Вес',
-                hintText: '60',
+                hintText: 'Вес',
                 suffixText: 'кг',
               ),
               const SizedBox(width: 15),
               _buildBodyParameterField(
                 label: 'Рост',
-                hintText: '170',
+                hintText: 'Рост',
                 suffixText: 'см',
               ),
               const SizedBox(height: 15),
@@ -232,7 +282,7 @@ class SettingsPage extends StatelessWidget {
             children: [
               _buildSaveButton(),
               SizedBox(width: sizeW * .08),
-              _buildCancelBytton(),
+              _buildCancelButton(),
             ],
           ),
         ],
@@ -240,25 +290,53 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  GestureDetector _buildCancelBytton() {
-    return GestureDetector(
-      onTap: () {
-        print('Отмена');
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(
-              color: Color(0xFFCCCCCC).withOpacity(.5),
-              width: 1,
-            )),
+  // Container _buildCancelButton() {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(15),
+  //         border: Border.all(
+  //           color: Color(0xFFCCCCCC).withOpacity(.5),
+  //           width: 1,
+  //         )),
+  //     child: Padding(
+  //       padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
+  //       child: Text(
+  //         'Отмена',
+  //         style: GoogleFonts.roboto(
+  //           color: Colors.black,
+  //           fontSize: 14,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  _buildCancelButton() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: Color(0xFFCCCCCC).withOpacity(.5),
+            width: 1,
+          )),
+      child: TextButton(
+        onPressed: () {
+          print('Отмена');
+        },
+        style: TextButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+          ),
+        ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
-          child: Text(
-            'Отмена',
-            style: GoogleFonts.roboto(
-              color: Colors.black,
-              fontSize: 14,
+          padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              'Отмена',
+              style: GoogleFonts.roboto(
+                color: Colors.black,
+                fontSize: 14,
+              ),
             ),
           ),
         ),
@@ -268,23 +346,29 @@ class SettingsPage extends StatelessWidget {
 
   Expanded _buildSaveButton() {
     return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          print('Сохранить');
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFF0071FF),
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0xFF0071FF),
-                blurRadius: 2,
-              )
-            ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFF0071FF),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0xFF0071FF),
+              blurRadius: 2,
+            )
+          ],
+        ),
+        child: TextButton(
+          onPressed: () {
+            print('Сохранить');
+          },
+          style: TextButton.styleFrom(
+            primary: Color(0xFF308CFF),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+            ),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
+            padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
@@ -369,7 +453,7 @@ class SettingsPage extends StatelessWidget {
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(left: 20),
             prefixIcon: const Icon(Icons.person),
-            hintText: 'Emma Linues',
+            hintText: 'Ваше имя',
             enabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(

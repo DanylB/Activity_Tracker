@@ -24,6 +24,7 @@ class BuildSettingsAppBar extends StatelessWidget {
                 width: sizeW,
                 height: 150,
                 decoration: const BoxDecoration(
+                  color: Colors.red,
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,

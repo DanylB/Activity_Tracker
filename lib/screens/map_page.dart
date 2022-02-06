@@ -8,7 +8,7 @@ class MapPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          'Build 0.7.210',
+          'Build 0.7.300',
           style: Theme.of(context).textTheme.headline5,
         ),
       ),

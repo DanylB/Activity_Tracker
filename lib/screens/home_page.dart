@@ -1,9 +1,11 @@
-import 'package:activity_tracker/logic/google_login.dart';
+// import 'package:activity_tracker/logic/google_login.dart';
 import 'package:activity_tracker/models/google_fit_data_model.dart';
 import 'package:activity_tracker/widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,10 +16,33 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
+  void initState() {
+    var provider = Provider.of<GoogleFitDataModel>(context, listen: false);
+
+    provider.getData();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final sizeW = MediaQuery.of(context).size.width;
     final sizeH = MediaQuery.of(context).size.height;
     TabController tabController = TabController(length: 4, vsync: this);
+    RefreshController _refreshController =
+        RefreshController(initialRefresh: false);
+
+    void _onRefresh() async {
+      await Future.delayed(Duration(milliseconds: 500));
+      _refreshController.refreshCompleted();
+    }
+
+    void _onLoading() async {
+      var provider = Provider.of<GoogleFitDataModel>(context, listen: false);
+      provider.getData();
+      // await Future.delayed(Duration(milliseconds: 500));
+      _refreshController.loadComplete();
+    }
 
     final provider = Provider.of<GoogleFitDataModel>(context);
     return Scaffold(
@@ -52,11 +77,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   child: TabBarView(
                     controller: tabController,
                     children: [
-                      _buildReviewTab(provider, context),
+                      SmartRefresher(
+                        child: _buildReviewTab(provider, context),
+                        controller: _refreshController,
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        // header: WaterDropHeader(),
+                        header: ClassicHeader(),
+                        // header: WaterDropMaterialHeader(),
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                      ),
                       Container(
                         color: Colors.white,
                         child: const Center(
-                          child: Text('Хотьба'),
+                          child: Text('Ходьба'),
                         ),
                       ),
                       Container(
@@ -98,8 +133,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               const SizedBox(height: 22),
               _buildActivityTimeCard(provider),
               const SizedBox(height: 22),
-              _buildGetStepDataButton(context),
-              _buildLogoutButton(context),
+              // _buildGetStepDataButton(context),
+              // _buildLogoutButton(context),
               const SizedBox(height: 250),
             ]),
           ),
@@ -125,7 +160,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold),
         tabs: const [
           Text('Обзор'),
-          Text('Хотьба'),
+          Text('Ходьба'),
           Text('Калории'),
           Text('Сон'),
         ],
@@ -133,19 +168,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  ElevatedButton _buildLogoutButton(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: Colors.red,
-      ),
-      onPressed: () {
-        final googleLogoutProvider =
-            Provider.of<GoogleSignInProvider>(context, listen: false);
-        googleLogoutProvider.logout();
-      },
-      child: const Text('Logout'),
-    );
-  }
+  // ElevatedButton _buildLogoutButton(BuildContext context) {
+  //   return ElevatedButton(
+  //     style: ElevatedButton.styleFrom(
+  //       primary: Colors.red,
+  //     ),
+  //     onPressed: () {
+  //       final googleLogoutProvider =
+  //           Provider.of<GoogleSignInProvider>(context, listen: false);
+  //       googleLogoutProvider.logout();
+  //     },
+  //     child: const Text('Logout'),
+  //   );
+  // }
 
   BuildDashboardCard _buildStepCard(GoogleFitDataModel provider) {
     return BuildDashboardCard(
